@@ -25,7 +25,7 @@ class {{model.name}}:
 {% endfor %}
             ):
 {% for prop in model.properties %}
-        self.__{{prop._name}} = {{prop._name}}
+        self.{{prop._name}} = {{prop._name}}
 {% endfor %}
     
 {% for prop in model.properties %}
