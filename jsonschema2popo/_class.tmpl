@@ -1,12 +1,10 @@
 #!/usr/bin/env/python
 
-import enum
-
 {% for model in models %}
 class {{model.name}}:
 
 {% for prop in model.properties if prop._enum %}
-    _{{prop._name}}_enum = enum.Enum('_{{prop._name}}_enum', '{{prop._enum|join(' ')}}', module=__name__)
+    _{{prop._name}}_enum = [{% for value in prop._enum %}'{{value}}', {% endfor %}]
 {% endfor %}
     _types_map = {
 {% for prop in model.properties %}
@@ -41,7 +39,7 @@ class {{model.name}}:
             raise TypeError("{{prop._name}} list values must be {{prop._type.subtype.__name__ or prop._type.subtype}}")
 {% endif %}
 {% if prop._enum %}
-        if value in self._{{prop._name}}_enum.__members__:
+        if value in self._{{prop._name}}_enum:
             self.__type = value
         else:
             raise ValueError("Value {} not in _{{prop._name}}_enum list".format(value))
