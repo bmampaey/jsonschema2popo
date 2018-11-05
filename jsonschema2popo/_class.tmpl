@@ -54,11 +54,11 @@ class {{model.name}}:
     def as_dict(self):
         d = dict()
 {% for prop in model.properties %}
-        if self.__{{prop._name}} is not None:
+        if self.{{prop._name}} is not None:
 {% if prop._type.type.__name__ == 'list' %}
-            d['{{prop._name}}'] = [p.as_dict() if hasattr(p, 'as_dict') else p for p in self.__{{prop._name}}]
+            d['{{prop._name}}'] = [p.as_dict() if hasattr(p, 'as_dict') else p for p in self.{{prop._name}}]
 {% else %}
-            d['{{prop._name}}'] = self.__{{prop._name}}.as_dict() if hasattr(self.__{{prop._name}}, 'as_dict') else self.__{{prop._name}}
+            d['{{prop._name}}'] = self.{{prop._name}}.as_dict() if hasattr(self.{{prop._name}}, 'as_dict') else self.{{prop._name}}
 {% endif %}
 {% endfor %}
         return d
